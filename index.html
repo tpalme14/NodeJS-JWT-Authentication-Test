@@ -11,19 +11,20 @@
     <div class="container-fluid">
         <h1 class="row">Login</h1>
         <main>
-            <div class="row">
+            <div class="row" id="row1">
                 <label for="username">Username</label>
                 <input type="text" name="username" id="username">
             </div>
 
-            <div class="row">
+            <div class="row" id="row2">
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password">
             </div>
 
             <div>
-                <button onclick="login()">Login</button>
-                <button onclick="getDashboard()">Dashboard</button>
+                <button onclick="login()" id="button1">Login</button>
+                <button onclick="getDashboard()" id="button2">Dashboard</button>
+                <button onclick="getSettings()" id="button3">Settings</button>
             </div>
         </main>
     </div>
@@ -56,18 +57,37 @@
             }).then(res => {
                 if (res && res.data && res.data.success) {
                     document.querySelector('h1.row').innerHTML = 'Dashboard';
-                    document.querySelector('main').innerHTML = res.data.myContent;
+                    document.getElementById('row1').innerHTML = res.data.myContent;
+                    document.getElementById('row2').innerHTML = '';
+                    if (document.getElementById('button1') !== null) {
+                        document.getElementById('button1').remove();
+                    }
+                }
+            });
+        }
+
+        function getSettings() {
+            const token = localStorage.getItem('jwt');
+            axios.get('/api/settings', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(res => {
+                if (res && res.data && res.data.success) {
+                    document.querySelector('h1.row').innerHTML = 'Settings';
+                    document.getElementById('row1').innerHTML = res.data.myContent;
+                    document.getElementById('row2').innerHTML = '';
                 }
             });
         }
     
-    function onLoad () {
-        const token = localStorage.getItem('jwt');
-        if(token) {
-            getDashboard();
-        }
-    }
-    onLoad();
+    //     function onLoad () {
+    //         const token = localStorage.getItem('jwt');
+    //         if(token) {
+    //            getDashboard();
+    //         }
+    //     }
+    //    onLoad();
     </script>
 </body>
 </html>

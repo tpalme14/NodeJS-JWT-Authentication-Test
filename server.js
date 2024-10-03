@@ -1,3 +1,5 @@
+const PORT = 3000;
+
 const express = require('express');
 const app = express();
 
@@ -14,8 +16,6 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-const PORT = 3000;
 
 const secretKey = 'My super secret key';
 const jwtMW = exjwt({
@@ -66,10 +66,10 @@ app.get('/api/dashboard', jwtMW, (req, res) => {
     });
 });
 
-app.get('/api/prices', jwtMW, (req, res) => {
+app.get('/api/settings', jwtMW, (req, res) => {
     res.json({
         success: true,
-        myContent: 'The price is $3.99'
+        myContent: 'This is where the settings content would go!'
     });
 });
 
